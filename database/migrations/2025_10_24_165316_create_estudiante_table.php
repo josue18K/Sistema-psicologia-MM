@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('estudiantes', function (Blueprint $table) {
+        Schema::create('estudiante', function (Blueprint $table) {
             $table->string('dni', 8)->primary();
             $table->string('nombres', 100);
             $table->string('apellidos', 100);
@@ -17,13 +17,13 @@ return new class extends Migration
             $table->string('grado', 20);
             $table->string('seccion', 10);
             $table->foreignId('tutor_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->foreignId('apoderado_id')->nullable()->constrained('apoderados')->onDelete('set null');
+            $table->foreignId('apoderado_id')->nullable()->constrained('apoderado')->onDelete('set null');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('estudiantes');
+        Schema::dropIfExists('estudiante');
     }
 };
