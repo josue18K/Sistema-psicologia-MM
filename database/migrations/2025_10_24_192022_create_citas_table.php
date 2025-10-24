@@ -17,7 +17,7 @@ return new class extends Migration
             $table->boolean('correo_enviado')->default(false);
             $table->timestamps();
 
-            $table->foreign('dni_estudiante')->references('dni')->on('estudiante')->onDelete('cascade');
+            $table->foreign('dni_estudiante')->references('dni')->on('estudiantes')->onDelete('cascade');
         });
     }
 
