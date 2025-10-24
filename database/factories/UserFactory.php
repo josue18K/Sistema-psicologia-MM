@@ -6,21 +6,10 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
     protected static ?string $password;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
     public function definition(): array
     {
         return [
@@ -28,17 +17,45 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'rol' => fake()->randomElement(['TOE', 'PSICOLOGO', 'TUTOR', 'DIRECTOR']),
+            'estado' => true,
             'remember_token' => Str::random(10),
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    // Métodos personalizados para crear usuarios por rol
+    public function toe(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'rol' => 'TOE',
+        ]);
+    }
+
+    public function psicologo(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'rol' => 'PSICOLOGO',
+        ]);
+    }
+
+    public function tutor(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'rol' => 'TUTOR',
+        ]);
+    }
+
+    public function director(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'rol' => 'DIRECTOR',
         ]);
     }
 }
