@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class UpdateEstudianteRequest extends FormRequest
 {
@@ -14,9 +13,6 @@ class UpdateEstudianteRequest extends FormRequest
 
     public function rules(): array
     {
-        // Obtener el DNI del estudiante que se está actualizando
-        $dni = $this->route('estudiante');
-
         return [
             'nombres' => 'sometimes|string|max:100|regex:/^[\pL\s]+$/u',
             'apellidos' => 'sometimes|string|max:100|regex:/^[\pL\s]+$/u',

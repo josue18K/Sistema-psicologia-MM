@@ -14,12 +14,12 @@ class StoreDiagnosticoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'dni_estudiante' => 'required|string|exists:estudiantes,dni',
+            'dni_estudiante' => 'required|string|size:8|exists:estudiantes,dni',
             'psicologo_id' => 'required|exists:users,id',
             'fecha' => 'required|date|before_or_equal:today',
             'tipo' => 'required|string|max:100',
-            'observaciones' => 'nullable|string|max:1000',
-            'recomendaciones' => 'nullable|string|max:1000',
+            'observaciones' => 'nullable|string|max:2000',
+            'recomendaciones' => 'nullable|string|max:2000',
             'nivel_riesgo' => 'required|in:BAJO,MEDIO,ALTO',
         ];
     }
@@ -29,6 +29,8 @@ class StoreDiagnosticoRequest extends FormRequest
         return [
             'dni_estudiante.required' => 'Debe seleccionar un estudiante.',
             'dni_estudiante.exists' => 'El estudiante seleccionado no existe.',
+            'psicologo_id.required' => 'El psicólogo es obligatorio.',
+            'fecha.required' => 'La fecha es obligatoria.',
             'fecha.before_or_equal' => 'La fecha no puede ser futura.',
             'tipo.required' => 'El tipo de problema es obligatorio.',
             'nivel_riesgo.required' => 'El nivel de riesgo es obligatorio.',

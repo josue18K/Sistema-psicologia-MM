@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCitaRequest extends FormRequest
+class UpdateDiagnosticoRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,21 +14,20 @@ class StoreCitaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'dni_estudiante' => 'required|string|exists:estudiantes,dni',
-            'fecha_cita' => 'required|date|after:now',
-            'motivo' => 'required|string|max:500',
-            'estado' => 'sometimes|in:PENDIENTE,REALIZADA,CANCELADA',
+            'fecha' => 'sometimes|date|before_or_equal:today',
+            'tipo' => 'sometimes|string|max:100',
+            'observaciones' => 'nullable|string|max:2000',
+            'recomendaciones' => 'nullable|string|max:2000',
+            'nivel_riesgo' => 'sometimes|in:BAJO,MEDIO,ALTO',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'dni_estudiante.required' => 'Debe seleccionar un estudiante.',
-            'dni_estudiante.exists' => 'El estudiante seleccionado no existe.',
-            'fecha_cita.required' => 'La fecha de la cita es obligatoria.',
-            'fecha_cita.after' => 'La fecha de la cita debe ser futura.',
-            'motivo.required' => 'El motivo de la cita es obligatorio.',
+            'fecha.before_or_equal' => 'La fecha no puede ser futura.',
+            'tipo.max' => 'El tipo no puede exceder 100 caracteres.',
+            'nivel_riesgo.in' => 'El nivel de riesgo debe ser BAJO, MEDIO o ALTO.',
         ];
     }
 }
