@@ -6,23 +6,33 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreDiagnosticoRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
-        return false;
+        return auth()->user()->rol === 'PSICOLOGO';
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
-            //
+            'dni_estudiante' => 'required|string|exists:estudiantes,dni',
+            'psicologo_id' => 'required|exists:users,id',
+            'fecha' => 'required|date|before_or_equal:today',
+            'tipo' => 'required|string|max:100',
+            'observaciones' => 'nullable|string|max:1000',
+            'recomendaciones' => 'nullable|string|max:1000',
+            'nivel_riesgo' => 'required|in:BAJO,MEDIO,ALTO',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'dni_estudiante.required' => 'Debe seleccionar un estudiante.',
+            'dni_estudiante.exists' => 'El estudiante seleccionado no existe.',
+            'fecha.before_or_equal' => 'La fecha no puede ser futura.',
+            'tipo.required' => 'El tipo de problema es obligatorio.',
+            'nivel_riesgo.required' => 'El nivel de riesgo es obligatorio.',
+            'nivel_riesgo.in' => 'El nivel de riesgo debe ser BAJO, MEDIO o ALTO.',
         ];
     }
 }
